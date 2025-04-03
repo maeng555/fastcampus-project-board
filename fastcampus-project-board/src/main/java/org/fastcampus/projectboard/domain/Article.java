@@ -24,9 +24,9 @@ import java.util.Set;
         @Index(columnList = "createdAt"),
         @Index(columnList = "createdBy")
 }) // 테이블 서칭이 가능하게끔
-@EntityListeners(AuditingEntityListener.class) //testcode할때 필요
+
 @Entity
-public class Article {
+public class Article extends AuditingFields {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -48,21 +48,7 @@ public class Article {
     @OneToMany(mappedBy = "article", cascade = CascadeType.ALL)
     private final Set<ArticleComment> articleComments = new LinkedHashSet<>();
 
-    //meta data
-    @CreatedDate
-    @Column(nullable = false)
-    private LocalDateTime createdAt;
 
-    @CreatedBy
-    @Column(nullable = false,length = 100)
-    private String createdBy;
-
-    @LastModifiedDate
-    private LocalDateTime modifiedAt;
-
-    @LastModifiedBy
-    @Column(nullable = false,length = 100)
-    private String modifiedBy;
 
     protected Article() {} //외부에서 new를 사용못하게 하기위해
 
